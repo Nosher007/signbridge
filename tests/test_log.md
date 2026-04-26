@@ -12,5 +12,5 @@
 - [x] WLASL dataset upload → 11,980 video clips confirmed in GCS (`raw/wlasl/wlasl_data/videos/`) ✅
 - [x] ASL EDA notebook → all cells ran, class dist plot + samples saved, 29 classes × 3,000 images each ✅
 - [x] WLASL EDA notebook → all cells ran, clip dist + frame dist + signer diversity plots saved, MediaPipe (21,3) ✓ ✅
-- [ ] `pip install -r requirements.txt` → no errors
-- [ ] GitHub repo initial commit → correct folder structure visible
+- [x] `pip install -r requirements.txt` → no errors on GCP VM ✅
+- [x] GitHub repo initial commit → pushed to https://github.com/Nosher007/signbridge ✅
