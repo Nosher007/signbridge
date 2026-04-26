@@ -1,0 +1,61 @@
+gcs:
+  bucket: gs://signbridge-data
+  raw:
+    asl: gs://signbridge-data/raw/asl_alphabet/
+    wlasl: gs://signbridge-data/raw/wlasl/
+  processed:
+    asl_landmarks: gs://signbridge-data/processed/asl_landmarks/
+    asl_images: gs://signbridge-data/processed/asl_images/
+    wlasl_sequences: gs://signbridge-data/processed/wlasl_sequences/
+    wlasl_features: gs://signbridge-data/processed/wlasl_features/
+  models:
+    asl: gs://signbridge-data/models/asl_mobilenetv2_v1/
+    wlasl: gs://signbridge-data/models/wlasl_lstm_v1/
+
+data:
+  asl_classes: 29
+  wlasl_top_k: 100
+  sequence_length: 30
+  image_size: 224
+  split:
+    train: 0.70
+    val: 0.10
+    cv_test: 0.10
+    llm_eval: 0.10
+
+mediapipe:
+  max_hands: 1
+  min_detection_confidence: 0.7
+  min_tracking_confidence: 0.5
+  landmarks_per_hand: 21
+  features_per_frame: 63
+
+model:
+  asl:
+    phase1_epochs: 10
+    phase1_lr: 0.001
+    phase1_batch: 64
+    phase2_epochs: 10
+    phase2_lr: 0.00001
+    phase2_batch: 32
+    dropout: 0.4
+    dense_units: 256
+    unfreeze_top_layers: 30
+  wlasl:
+    epochs: 30
+    lr: 0.001
+    batch: 32
+    lstm_units_1: 128
+    lstm_units_2: 64
+    dropout: 0.3
+    patience: 5
+
+inference:
+  confidence_threshold: 0.7
+  buffer_size: 10
+  fps: 25
+
+llm:
+  model: gemini-1.5-flash
+  context_window: 10
+  max_retries: 3

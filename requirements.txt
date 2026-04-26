@@ -1,0 +1,16 @@
+tensorflow>=2.13
+mediapipe>=0.10
+langchain>=0.2
+langchain-google-vertexai
+google-cloud-aiplatform
+streamlit>=1.35
+streamlit-webrtc
+opencv-python-headless
+numpy
+pandas
+scikit-learn
+matplotlib
+seaborn
+Pillow
+google-cloud-storage
+pyyaml

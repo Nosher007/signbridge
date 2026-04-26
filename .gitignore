@@ -1,0 +1,172 @@
+# ============================================================
+# SignBridge — .gitignore
+# ============================================================
+
+# ------------------------------------------------------------
+# PROJECT SECRETS & INSTRUCTIONS
+# ------------------------------------------------------------
+CLAUDE.md
+claude.md
+.claude/
+*.env
+.env.*
+env/
+secrets/
+service_account*.json
+gcp_key*.json
+credentials*.json
+*.pem
+*.key
+
+# ------------------------------------------------------------
+# DATASETS (never commit — use GCS)
+# ------------------------------------------------------------
+data/
+*.zip
+*.tar
+*.tar.gz
+*.tar.bz2
+*.rar
+*.7z
+
+# Raw image/video datasets
+*.jpg
+*.jpeg
+*.png
+*.bmp
+*.gif
+*.tiff
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.webm
+
+# Processed arrays
+*.npy
+*.npz
+*.h5
+*.hdf5
+*.tfrecord
+*.tfrecords
+*.pkl
+*.pickle
+
+# ------------------------------------------------------------
+# TRAINED MODELS & CHECKPOINTS (use GCS)
+# ------------------------------------------------------------
+models/
+*.pb
+*.pth
+*.pt
+*.ckpt
+*.ckpt.*
+*.index
+*.meta
+*.data-*-of-*
+saved_model/
+checkpoints/
+
+# ------------------------------------------------------------
+# LOGS & OUTPUTS
+# ------------------------------------------------------------
+logs/
+*.log
+*.out
+wandb/
+mlruns/
+runs/
+tensorboard/
+events.out.tfevents.*
+
+# ------------------------------------------------------------
+# NOTEBOOKS — strip outputs before committing
+# (keep .ipynb files but strip outputs via pre-commit or manually)
+# Uncomment below to ignore notebooks entirely if preferred:
+# *.ipynb
+# ------------------------------------------------------------
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# ------------------------------------------------------------
+# PYTHON
+# ------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.Python
+pip-wheel-metadata/
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+.env/
+
+# ------------------------------------------------------------
+# GOOGLE CLOUD / GCP
+# ------------------------------------------------------------
+.gcloud/
+application_default_credentials.json
+gcloud-service-key.json
+
+# ------------------------------------------------------------
+# DOCKER
+# ------------------------------------------------------------
+.dockerignore
+# Keep Dockerfile tracked, ignore build artifacts:
+docker-compose.override.yml
+
+# ------------------------------------------------------------
+# OS & EDITOR JUNK
+# ------------------------------------------------------------
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+
+# VSCode
+.vscode/
+*.code-workspace
+
+# JetBrains / PyCharm
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Jupyter
+.jupyter/
+profile_default/
+ipython_config.py
+
+# ------------------------------------------------------------
+# MISC
+# ------------------------------------------------------------
+*.tmp
+*.temp
+*.swp
+*.swo
+.cache/
+.pytest_cache/
+.coverage
+htmlcov/
+*.orig
+*.bak
