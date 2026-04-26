@@ -100,15 +100,15 @@ def main():
     assert X.shape[1:] == (SEQUENCE_LENGTH, 63), f"Expected (N, 30, 63), got {X.shape}"
     assert not np.any(np.isnan(X)), "NaN values found in sequences!"
 
-    # 70/10/10/10 split
+    # 70/10/10/10 split — no stratify (some classes have too few clips)
     X_trainval, X_held, y_trainval, y_held = train_test_split(
-        X, y, test_size=0.20, random_state=RANDOM_SEED, stratify=y
+        X, y, test_size=0.20, random_state=RANDOM_SEED
     )
     X_test, X_llm, y_test, y_llm = train_test_split(
-        X_held, y_held, test_size=0.50, random_state=RANDOM_SEED, stratify=y_held
+        X_held, y_held, test_size=0.50, random_state=RANDOM_SEED
     )
     X_train, X_val, y_train, y_val = train_test_split(
-        X_trainval, y_trainval, test_size=VAL_SIZE, random_state=RANDOM_SEED, stratify=y_trainval
+        X_trainval, y_trainval, test_size=VAL_SIZE, random_state=RANDOM_SEED
     )
 
     print(f"\nSplit sizes:")
