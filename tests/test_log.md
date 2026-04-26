@@ -6,7 +6,7 @@
 
 ## Day 1 — Setup + Data + EDA
 
-- [ ] GCP setup → `gsutil ls gs://signbridge-data/`
+- [x] GCP setup → `gsutil ls gs://signbridge-data/` ✅ — project `signbridge-prod` created, billing linked, 6 APIs enabled, bucket confirmed
 - [ ] ASL dataset upload → file count confirmed in GCS
 - [ ] WLASL dataset upload → file count confirmed in GCS
 - [ ] ASL EDA notebook → all cells run, class dist plot saved
