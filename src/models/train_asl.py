@@ -350,21 +350,21 @@ def train_mobilenetv2(phase=1, phase1_ckpt=None):
     else:
         print("\n=== MobileNetV2 — Phase 2 (fine-tune top 30 layers) ===")
         if phase1_ckpt and phase1_ckpt.startswith("gs://"):
-            # Download from GCS
             import subprocess
-            subprocess.run(
-                ["gsutil", "-m", "cp", "-r", phase1_ckpt, "/tmp/mv2_phase1_dl"],
-                check=True
-            )
-            model = tf.keras.models.load_model("/tmp/mv2_phase1_dl")
+            local_p1 = "/tmp/mv2_phase1_dl.keras"
+            subprocess.run(["gsutil", "cp", phase1_ckpt, local_p1], check=True)
+            model = tf.keras.models.load_model(local_p1)
         elif phase1_ckpt:
             model = tf.keras.models.load_model(phase1_ckpt)
         else:
             raise ValueError("--phase1_ckpt required for Phase 2")
 
-        # Unfreeze top 30 layers of MobileNetV2 base
-        # The base model is the second layer in our functional model
-        base_model = model.layers[2]   # MobileNetV2 is layers[2] after Input + preprocess
+        # Find MobileNetV2 base by name (robust to layer ordering changes)
+        base_model = next(
+            (l for l in model.layers if "mobilenetv2" in l.name.lower()), None
+        )
+        if base_model is None:
+            raise RuntimeError("Could not find MobileNetV2 layer in loaded model")
         unfreeze_top_layers(base_model, num_layers=30)
 
         train_gen_p2, val_gen_p2 = load_image_data_from_gcs(batch_size=MV2_PHASE2_CONFIG["batch_size"])
