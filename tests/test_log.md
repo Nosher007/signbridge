@@ -14,3 +14,12 @@
 - [x] WLASL EDA notebook → all cells ran, clip dist + frame dist + signer diversity plots saved, MediaPipe (21,3) ✓ ✅
 - [x] `pip install -r requirements.txt` → no errors on GCP VM ✅
 - [x] GitHub repo initial commit → pushed to https://github.com/Nosher007/signbridge ✅
+
+## Day 2 — Preprocessing + MediaPipe Pipeline
+
+- [x] `mediapipe_extractor.py` → image shape (63,) ✓, video shape (30, 63) ✓ ✅
+- [x] `preprocess_asl.py` → 87k images processed, splits saved to GCS ✅
+- [x] `preprocess_wlasl.py` → 1,013 videos processed, splits saved to GCS ✅
+- [x] `validate_processed.py` → ASL PASSED, WLASL PASSED, 0 NaNs ✅
+- [x] ASL processed shape: Train(60900,63) Val(8700,63) Test(8700,63) LLM(8700,63) ✅
+- [x] WLASL processed shape: Train(708,30,63) Val(102,30,63) Test(101,30,63) LLM(102,30,63) ✅

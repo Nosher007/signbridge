@@ -45,3 +45,33 @@ Resize all images from 200×200 to 224×224 for MobileNetV2 input. Apply backgro
 - Apply **class weights** during LSTM training to handle the 18–40 clip imbalance
 - **Zero-fill** frames where MediaPipe fails to detect a hand (41% coverage on sample is low — may need detection confidence tuning or fallback strategy)
 - The low MediaPipe coverage is a known WLASL challenge: videos come from YouTube with varied lighting, angles, and backgrounds. This will be noted as a limitation in the report.
+
+---
+
+## Preprocessing Decision — Day 2 — 2026-04-26
+
+**What we built:** MediaPipe landmark extraction pipeline for both ASL images and WLASL videos.
+
+**Key decisions:**
+
+**Landmark extraction:**
+- Used MediaPipe Hands with `max_num_hands=1`, `min_detection_confidence=0.7`
+- Extract 21 landmarks × 3 coords (x, y, z) = **63 features per frame**
+- Zero-fill frames where no hand is detected (rather than dropping)
+
+**ASL preprocessing:**
+- Bulk-downloaded all 87,000 images to VM local disk first (`gsutil -m`), then ran MediaPipe from disk — ~20× faster than per-image GCS requests
+- Output: `(N, 63)` arrays per split
+- Split: Train(60,900) / Val(8,700) / Test(8,700) / LLM(8,700) — stratified by class
+
+**WLASL preprocessing:**
+- Extracted per-frame landmarks from all video clips via GCS streaming
+- Sequences sampled evenly to exactly **30 frames** (median video was 66 frames)
+- Shorter videos zero-padded at the end
+- Output: `(N, 30, 63)` arrays per split
+- Split: Train(708) / Val(102) / Test(101) / LLM(102) — random (some classes had <2 clips, stratify not possible)
+
+**Validation results:**
+- ASL: all 4 splits pass shape and NaN checks ✓
+- WLASL: all 4 splits pass shape and NaN checks ✓
+- 29 ASL classes and 100 WLASL glosses confirmed
