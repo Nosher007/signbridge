@@ -69,12 +69,12 @@ def upload_file_to_gcs(local_path, bucket_name, blob_path):
 
 def save_model_to_gcs(model, model_name):
     """Save a Keras model locally then push to GCS."""
-    local_dir = f"/tmp/{model_name}"
-    model.save(local_dir)
     import subprocess
-    dest = f"gs://{BUCKET}/{MODELS_PREFIX}/{model_name}/"
-    subprocess.run(["gsutil", "-m", "cp", "-r", local_dir, dest], check=True)
-    print(f"  Model saved to gs://{BUCKET}/{MODELS_PREFIX}/{model_name}/")
+    local_path = f"/tmp/{model_name}.keras"
+    model.save(local_path)
+    dest = f"gs://{BUCKET}/{MODELS_PREFIX}/{model_name}.keras"
+    subprocess.run(["gsutil", "cp", local_path, dest], check=True)
+    print(f"  Model saved to gs://{BUCKET}/{MODELS_PREFIX}/{model_name}.keras")
 
 
 # ── Data loading ─────────────────────────────────────────────────────────────

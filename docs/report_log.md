@@ -75,3 +75,38 @@ Resize all images from 200×200 to 224×224 for MobileNetV2 input. Apply backgro
 - ASL: all 4 splits pass shape and NaN checks ✓
 - WLASL: all 4 splits pass shape and NaN checks ✓
 - 29 ASL classes and 100 WLASL glosses confirmed
+
+---
+
+## Model Run — Landmark MLP — ASL Alphabet — 2026-04-27
+
+**Architecture:**
+3-layer fully connected network (MLP) trained on 63 MediaPipe landmark features per frame. No image pixels — purely hand geometry. ~60K parameters. Lower-bound reference: tests whether hand skeleton alone can distinguish letters.
+
+**Hyperparameters:**
+- Epochs: 25 (early stopping at epoch 25, patience=5)
+- Batch size: 256
+- Learning rate: 1e-3 (Adam)
+- Dropout: 0.4
+- Architecture: Dense(256,relu) → BN → Dropout → Dense(128,relu) → BN → Dropout → Dense(64,relu) → Dropout → Dense(29,softmax)
+
+**Results:**
+| Metric            | Value    |
+|-------------------|----------|
+| Test Accuracy     | 59.01%   |
+| Macro F1          | 0.6837   |
+| Top-5 Accuracy    | N/A      |
+| Inference Latency | 63.1 ms  |
+| Parameters        | ~0.06M   |
+
+**Training curve figure:** `docs/figures/landmark_mlp_training.png`
+**Confusion matrix figure:** `docs/figures/landmark_mlp_confusion.png`
+
+**Observations:**
+- Loss decreased steadily from epoch 1 (2.42) to plateau around epoch 20–25
+- Model plateaued at ~59–60% accuracy — consistent with known limitation: 63 landmark features struggle to distinguish visually similar letter pairs (M/N, G/H, R/U) where hand shape differences are subtle in 3D joint coordinates
+- Macro F1 of 0.6837 is higher than accuracy because some classes reach high precision/recall while confusable classes drag accuracy down
+- 63.1 ms/sample latency is well within real-time threshold but is based purely on CPU MLP forward pass
+
+**Decision:**
+Proceed to next baseline (CNN from scratch). This MLP result is the lower-bound reference — expected to be outperformed by image-based models with richer spatial features.

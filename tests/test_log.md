@@ -23,3 +23,15 @@
 - [x] `validate_processed.py` → ASL PASSED, WLASL PASSED, 0 NaNs ✅
 - [x] ASL processed shape: Train(60900,63) Val(8700,63) Test(8700,63) LLM(8700,63) ✅
 - [x] WLASL processed shape: Train(708,30,63) Val(102,30,63) Test(101,30,63) LLM(102,30,63) ✅
+
+## Day 3 — ASL CNN Model Training (in progress)
+
+- [x] `cnn_classifier.py` → 3 model architectures defined: LandmarkMLP, BaselineCNN, MobileNetV2 ✅
+- [x] `train_asl.py` → training script with GCS data loading, callbacks, eval, model upload ✅
+- [x] Landmark MLP trained on CPU VM → loss ↓ epochs 1–25, no NaN loss ✅
+- [x] Landmark MLP test accuracy: **59.01%**, Macro F1: **0.6837**, Latency: **63.1 ms** ✅
+- [x] Landmark MLP confusion matrix + training curve saved to GCS `docs/figures/` ✅
+- [x] Landmark MLP best checkpoint saved to `gs://signbridge-data/models/asl_landmark_mlp_v1.keras` ✅
+- [ ] Baseline CNN trained on Kaggle T4 — pending
+- [ ] MobileNetV2 Phase 1 trained on Kaggle T4 — pending
+- [ ] MobileNetV2 Phase 2 fine-tuned on Kaggle T4 — pending
