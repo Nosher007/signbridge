@@ -32,6 +32,9 @@
 - [x] Landmark MLP test accuracy: **59.01%**, Macro F1: **0.6837**, Latency: **63.1 ms** ✅
 - [x] Landmark MLP confusion matrix + training curve saved to GCS `docs/figures/` ✅
 - [x] Landmark MLP best checkpoint saved to `gs://signbridge-data/models/asl_landmark_mlp_v1.keras` ✅
-- [ ] Baseline CNN trained on Kaggle T4 — pending
-- [ ] MobileNetV2 Phase 1 trained on Kaggle T4 — pending
-- [ ] MobileNetV2 Phase 2 fine-tuned on Kaggle T4 — pending
+- [x] Baseline CNN trained on Kaggle T4 → val accuracy 99.99%, val loss 0.00063, early stop epoch 15 ✅
+- [x] MobileNetV2 Phase 1 trained on Kaggle T4 → val accuracy 99.80%, val loss 0.0072, early stop epoch 15 ✅
+- [x] MobileNetV2 Phase 2 fine-tuned on Kaggle T4 → val accuracy 99.99%, val loss 0.00018, epoch 15 ✅
+- [x] All models saved to GCS → `gs://signbridge-data/models/` ✅
+- [x] Loss decreased every epoch in Phase 2 — no NaN loss ✅
+- [x] MobileNetV2 selected as final ASL model ✅
