@@ -38,3 +38,48 @@
 - [x] All models saved to GCS → `gs://signbridge-data/models/` ✅
 - [x] Loss decreased every epoch in Phase 2 — no NaN loss ✅
 - [x] MobileNetV2 selected as final ASL model ✅
+
+## Day 4 — WLASL LSTM Model Training
+
+- [x] `lstm_classifier.py` → build_landmark_lstm, build_mobilenetv2_lstm, build_feature_extractor defined ✅
+- [x] `train_wlasl.py` → training script with GCS data loading, callbacks, eval, model upload ✅
+- [x] `04_train_wlasl_kaggle.ipynb` → 8-cell Kaggle notebook for T4 GPU training ✅
+- [x] MobileNetV2 feature extraction → (30, 1280) per clip confirmed ✅
+- [x] Feature extraction complete → Train(748), Val(165), Test(100) clips extracted; 1,025 clips unavailable (YouTube takedowns, expected) ✅
+- [x] Features saved to GCS → `processed/wlasl_mv2_features/X_train.npy`, `X_val.npy`, `X_test.npy` ✅
+- [x] LSTM training → loss decreased over training, no NaN loss ✅
+- [x] MobileNetV2+LSTM final results: Top-1: **9.00%**, Top-5: **23.00%**, Macro F1: **0.0559**, Latency: **85.2 ms** ✅
+- [x] Model saved to GCS → `gs://signbridge-data/models/wlasl_mobilenetv2_lstm_v1.keras` ✅
+- [x] Low accuracy expected and documented: ~7-8 clips/class after video attrition (vs ~21/class in full WLASL benchmark) ✅
+- [x] MobileNetV2+LSTM selected as final WLASL model — outperforms landmark LSTM on Top-5 ✅
+- [x] Day 4 model run entries + model decision entry logged to `docs/report_log.md` ✅
+
+## Day 4 Extension — ASL-Citizen Augmentation Experiment
+
+- [x] ASL-Citizen dataset attached to Kaggle notebook (abd0kamel/asl-citizen, 83,399 videos) ✅
+- [x] Dataset path confirmed: `/kaggle/input/datasets/abd0kamel/asl-citizen/ASL_Citizen` ✅
+- [x] Splits loaded from `splits/train.csv`, `splits/val.csv`, `splits/test.csv` ✅
+- [x] Overlap with WLASL top-100: **67 glosses**, 2,050 clips (avg 30.6/gloss), 0 failed ✅
+- [x] MobileNetV2 features extracted for all 2,050 ASL-Citizen clips — 0 failures ✅
+- [x] Merged features saved to GCS → Train(1721) / Val(423) / Test(919) ✅
+- [x] Experiment 1 — Mixed WLASL+ASL-Citizen, 100 classes → Val accuracy: **4.02%** (worse than v1) ✅
+- [x] Experiment 2 — Feature normalization (StandardScaler) → Val accuracy: **3.55%** (no improvement) ✅
+- [x] Experiment 3 — ASL-Citizen only, 100 classes → Val accuracy: **3.10%** (ghost class problem) ✅
+- [x] Experiment 4 — ASL-Citizen only, 67 active classes → Val accuracy: **2.33%** (signer-independent evaluation too hard) ✅
+- [x] Root cause documented: domain mismatch + signer-independent evaluation + insufficient data per class ✅
+- [x] Decision: revert to WLASL-only v1 model (9% Top-1, 23% Top-5) as production model ✅
+- [x] Full experiment log added to `docs/report_log.md` ✅
+- [x] GCP VM stopped to preserve billing ✅
+
+## Day 5 — LangChain + Gemini Pipeline
+
+- [x] `langchain_pipeline.py` built — `SignBridgePipeline` class with `translate()` + `translate_batch()` ✅
+- [x] Gemini API auth confirmed — `ChatGoogleGenerativeAI` with Google AI Studio key ✅
+- [x] Model: `gemini-2.5-flash` (gemini-2.0-flash deprecated for new users) ✅
+- [x] Pipeline run on `["HELLO", "MY", "NAME", "IS", "N", "O", "S", "H"]` → "Hello, my name is Nosh." ✅
+- [x] Pipeline run on `["HELP", "M", "E"]` → "Help me." ✅
+- [x] All 10 test sequences → 100% success rate, 0 API failures ✅
+- [x] Avg quality score: 4.7 / 5 ✅
+- [x] Avg latency: 1112 ms ✅
+- [x] Retry logic in place (exponential backoff: 2s, 4s) ✅
+- [x] LLM Pipeline Finding entry logged to `docs/report_log.md` ✅

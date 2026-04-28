@@ -170,3 +170,4 @@ ipython_config.py
 htmlcov/
 *.orig
 *.bak
+*.task
